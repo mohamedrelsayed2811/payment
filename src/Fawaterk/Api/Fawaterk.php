@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Radwan\Payments\Fawaterk\Api;
+namespace Radwan\Payment\Fawaterk\Api;
 
 
 
