@@ -80,17 +80,6 @@ class Fawaterk
     }
 
 
-    /**
-     * Set environment
-     * @var string $environment
-     */
-    public function environment( string $environment )
-    {
-        $this->environment = config('radwan-payments.environment');
-
-        return $this;
-    }
-
 
     /**
      * Set cart total
@@ -115,6 +104,13 @@ class Fawaterk
         return $this;
     }
 
+    public function setCurrency( string $currency )
+    {
+        $this->customer = $customer;
+
+        return $this;
+    }
+
 
 
     /**
@@ -122,16 +118,20 @@ class Fawaterk
      */
     public function getInvoiceUrl()
     {
+        //Config::get
+
+        $environment = config('radwan-payments.environment');
+
 
         $redirectUrl = [
-            'successUrl'    => config('radwan-payments.$this->environment.successUrl'),
-            'failUrl'   => config('radwan-payments.$this->environment.failUrl'),
-            'pendingUrl'   => config('radwan-payments.$this->environment.pendingUrl'),
+            'successUrl'    => config("radwan-payments.$environment.successUrl"),
+            'failUrl'   => 'https://test.nt3lm.com/payments/fawaterk/callback/',
+            'pendingUrl'   => 'https://test.nt3lm.com/payments/fawaterk/callback/',
         ];
 
         $data = [
             'cartTotal'    => $this->cartTotal,
-            'currency'   => config('radwan-payments.$this->environment.currency'),
+            'currency'   => \Config::get('radwan-payments.test.currency'),
             'customer'   => $this->customer,
             'redirectionUrls' => $redirectUrl,
             'cartItems' => $this->cartItems,
@@ -141,7 +141,7 @@ class Fawaterk
 
         $curl = curl_init();
         curl_setopt_array($curl, array(
-        CURLOPT_URL => config('radwan-payments.$this->environment.fawaterk_invoice'),
+        CURLOPT_URL => \Config::get('radwan-payments.test.apikey'),
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_ENCODING => '',
         CURLOPT_MAXREDIRS => 10,
@@ -152,7 +152,7 @@ class Fawaterk
         CURLOPT_POSTFIELDS => $data,
         CURLOPT_HTTPHEADER => array(
             'Content-Type: application/json',
-            'Authorization: Bearer '. config('radwan-payments.$this->environment.apikey'),
+            'Authorization: Bearer a848310def7ac9efdeeec2a47814b14e464af178de65c08b70',
             'Content-Length: ' . strlen($data),
         ),
         ));

@@ -14,5 +14,13 @@
             "email": "mohamed.r.elsayed2811@gmail.com"
         }
     ],
-    "require": {}
+    "require": {},
+    "extra": {
+        "laravel": {
+          "providers": [
+            "Radwan\\Payment\\PaymentsServiceProvider"
+          ]
+          
+        }
+    }
 }
