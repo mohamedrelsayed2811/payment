@@ -135,7 +135,6 @@ class Fawaterk
             'customer'   => $this->customer,
             'redirectionUrls' => $redirectUrl,
             'cartItems' => $this->cartItems,
-            'shipping' => $this->shipping
         ];
         
         $data = json_encode($data); 
