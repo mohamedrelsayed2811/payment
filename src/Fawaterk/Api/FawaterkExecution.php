@@ -4,7 +4,7 @@ namespace Radwan\Payment\Fawaterk\Api;
 
 
 
-class PaymentExecution
+class FawaterkExecution
 {
 
     public $apikey;
