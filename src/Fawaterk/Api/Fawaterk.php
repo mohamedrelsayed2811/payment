@@ -3,7 +3,7 @@
 
 namespace Radwan\Payment\Fawaterk\Api;
 
-
+use Radwan\Payment\Fawaterk\Models\FawaterkTransactions;
 
 /**
  * Fawaterk Payment Integration.
@@ -22,7 +22,7 @@ class Fawaterk
     public $successUrl;
     public $pendingUrl;
     public $failUrl;
-
+    public $order;
 
     public function __construct()
     {
@@ -82,6 +82,14 @@ class Fawaterk
         return $this;
     }
 
+    public function setOrder( array $order )
+    {
+        $this->order = $order;
+
+        return $this;
+    }
+
+
     /**
      * Sends the request and gets back the invoice URL.
      */
@@ -125,13 +133,27 @@ class Fawaterk
 
         $response = curl_exec($curl);
 
+
         $response = json_decode($response);
 
+
         if (isset($response)) {
+            FawaterkTransactions::create([
+                'reference_id' => $response->data->invoiceId,
+                'invoice_url' => $response->data->url,
+                'order' => $this->order,
+                'request' => $data,
+                'response' => $response,
+                'created_at' => time()
+            ]);
             /** redirect to fawaterk payemnt url **/
             return $response;
         }
 
         throw new \Exception("Invalid Response! " . $response);
     }
+
+
+
+   
 }

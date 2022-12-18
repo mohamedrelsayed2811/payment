@@ -13,6 +13,8 @@ class PaymentsServiceProvider extends ServiceProvider
             __DIR__.'/../config/radwan-payments.php' => config_path('radwan-payments.php')
         ], 'radwan-payments');
 
+        $this->loadMigrationsFrom(realpath(__DIR__ . '/../migrations'));
+
     }
 
 
