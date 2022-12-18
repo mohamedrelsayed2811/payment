@@ -4,8 +4,12 @@
     "type": "library",
     "license": "MIT",
     "autoload": {
+        "classmap": [
+            "app/database/migrations"
+        ],
         "psr-4": {
-            "Radwan\\Payment\\": "src/"
+            "Radwan\\Payment\\": "src/",
+            "App\\": "app/"
         }
     },
     "authors": [
