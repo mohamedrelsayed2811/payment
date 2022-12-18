@@ -8,8 +8,7 @@
             "app/database/migrations"
         ],
         "psr-4": {
-            "Radwan\\Payment\\": "src/",
-            "App\\": "app/"
+            "Radwan\\Payment\\": "src/"
         }
     },
     "authors": [
