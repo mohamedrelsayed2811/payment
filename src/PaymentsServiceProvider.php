@@ -4,17 +4,14 @@ namespace Radwan\Payment;
 
 use Illuminate\Support\ServiceProvider;
 
-
 class PaymentsServiceProvider extends ServiceProvider
 {
     public function boot()
     {
-        $this->configure();
-        $this->registerPublishing();
         
         $this->publishes([
-            __DIR__ . '/../config/radwan-payments.php' => config_path('radwan-payments.php'),
-        ]);
+            __DIR__.'/../config/radwan-payments.php' => config_path('radwan-payments.php')
+        ], 'radwan-payments');
 
     }
 
@@ -27,13 +24,5 @@ class PaymentsServiceProvider extends ServiceProvider
         );
     }
 
-    protected function registerPublishing()
-    {
-        $this->publishes([
-            __DIR__ . '/../config/radwan-payments.php' => config_path('radwan-payments.php'),
-        ], 'radwan-payments-config');
-       
 
-    }
-    
 }

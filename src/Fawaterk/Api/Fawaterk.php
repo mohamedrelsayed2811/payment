@@ -12,48 +12,28 @@ namespace Radwan\Payment\Fawaterk\Api;
 class Fawaterk
 {
 
-
-    /**
-     * /
-     * @var string
-     */
-    private $environment;
-
-
-    /**
-     * /
-     * @var string $apiUrl
-     */
-    private $apiUrl;
+    public $apikey;
+    public $apiUrl;
+    public $cartItems;
+    public $shipping;
+    public $cartTotal;
+    public $customer;
+    public $currency;
+    public $successUrl;
+    public $pendingUrl;
+    public $failUrl;
 
 
-    /**
-     * @var string $vendorKey
-     */
-    private $vendorKey;
-
-    /**
-     * @var array $cartItems
-     */
-    private $cartItems;
-
-
-    /**
-     * @var float $shipping
-     */
-    private $shipping;
-
-    /**
-     * @var float $cartTotal
-     */
-    private $cartTotal;
-
-    /**
-     * @var array $customer
-     */
-    private $customer;
-
-
+    public function __construct()
+    {
+        $environment = config('radwan-payments.environment');
+        $this->apikey = config("radwan-payments.$environment.apikey");
+        $this->apiUrl = config("radwan-payments.$environment.apiUrl");
+        $this->currency = config("radwan-payments.$environment.currency");
+        $this->successUrl = config("radwan-payments.$environment.successUrl");
+        $this->pendingUrl = config("radwan-payments.$environment.pendingUrl");
+        $this->failUrl = config("radwan-payments.$environment.failUrl");
+    }
 
 
     /**
@@ -72,14 +52,12 @@ class Fawaterk
      * Set shipping
      * @var float $shipping
      */
-    public function setShipping( float $shipping )
+    public function setShipping(float $shipping)
     {
         $this->shipping = $shipping;
 
         return $this;
     }
-
-
 
     /**
      * Set cart total
@@ -104,44 +82,32 @@ class Fawaterk
         return $this;
     }
 
-    public function setCurrency( string $currency )
-    {
-        $this->customer = $customer;
-
-        return $this;
-    }
-
-
-
     /**
      * Sends the request and gets back the invoice URL.
      */
     public function getInvoiceUrl()
     {
-        //Config::get
-
-        $environment = config('radwan-payments.environment');
-
 
         $redirectUrl = [
-            'successUrl'    => config("radwan-payments.$environment.successUrl"),
-            'failUrl'   => 'https://test.nt3lm.com/payments/fawaterk/callback/',
-            'pendingUrl'   => 'https://test.nt3lm.com/payments/fawaterk/callback/',
+            'successUrl'    => $this->successUrl,
+            'failUrl'   => $this->failUrl,
+            'pendingUrl'   => $this->pendingUrl,
         ];
 
         $data = [
             'cartTotal'    => $this->cartTotal,
-            'currency'   => \Config::get('radwan-payments.test.currency'),
+            'currency'   => $this->currency,
             'customer'   => $this->customer,
             'redirectionUrls' => $redirectUrl,
             'cartItems' => $this->cartItems,
+            'Shipping' => $this->shipping,
         ];
         
         $data = json_encode($data); 
 
         $curl = curl_init();
         curl_setopt_array($curl, array(
-        CURLOPT_URL => \Config::get('radwan-payments.test.apikey'),
+        CURLOPT_URL => $this->apiUrl,
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_ENCODING => '',
         CURLOPT_MAXREDIRS => 10,
@@ -152,7 +118,7 @@ class Fawaterk
         CURLOPT_POSTFIELDS => $data,
         CURLOPT_HTTPHEADER => array(
             'Content-Type: application/json',
-            'Authorization: Bearer a848310def7ac9efdeeec2a47814b14e464af178de65c08b70',
+            'Authorization: Bearer '.$this->apikey,
             'Content-Length: ' . strlen($data),
         ),
         ));

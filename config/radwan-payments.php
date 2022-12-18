@@ -1,10 +1,10 @@
 <?php
 
 return [
-    'environment' => env('FAWATERK_ENVIRONMENT'),
+    'environment' => env('FAWATERK_ENVIRONMENT', 'test'),
     'test'     => [
         'apikey'        => env('FAWATERK_API'),
-        'fawaterk_invoice'     => 'https://fawaterkstage.com/api/v2/createInvoiceLink',
+        'apiUrl'     => 'https://fawaterkstage.com/api/v2/createInvoiceLink',
         'fawaterk_transaction_data'     => 'https://fawaterkstage.com/api/v2/getInvoiceData/',
         'currency' => env('FAWATERK_CURRENCY'),
         'successUrl'      => env('FAWATERK_SUCCESS_URL'),
@@ -13,7 +13,7 @@ return [
     ],
     'live'        => [
         'apikey'        => env('FAWATERK_API'),
-        'fawaterk_invoice'     => 'https://app.fawaterk.com/api/v2/createInvoiceLink',
+        'apiUrl'     => 'https://app.fawaterk.com/api/v2/createInvoiceLink',
         'fawaterk_transaction_data'     => 'https://app.fawaterk.com/api/v2/getInvoiceData/',
         'currency' => env('FAWATERK_CURRENCY'),
         'successUrl'      => env('FAWATERK_SUCCESS_URL'),
