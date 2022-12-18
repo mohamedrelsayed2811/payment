@@ -7,32 +7,25 @@ namespace Radwan\Payment\Fawaterk\Api;
 class PaymentExecution
 {
 
-     /**
-     * /
-     * @var string
-     */
-    private $environment;
+    public $apikey;
+    public $transaction_url;
 
-    public function environment( string $environment )
+
+    public function __construct()
     {
-        $this->environment = config('radwan-payments.environment');
-
-        return $this;
+        $environment = config('radwan-payments.environment');
+        $this->apikey = config("radwan-payments.$environment.apikey");
+        $this->transaction_url = config("radwan-payments.$environment.fawaterk_transaction_data");
     }
+
 
     public function execute($invoice_id)
     {
 
-        $id = $invoice_id;
-
-
-        $fawaterk_transaction = config('radwan-payments.$this->environment.fawaterk_transaction_data') . $id;
-        
-
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-        CURLOPT_URL => $fawaterk_transaction,
+        CURLOPT_URL => $this->transaction_url . $invoice_id,
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_ENCODING => '',
         CURLOPT_MAXREDIRS => 10,
@@ -42,7 +35,7 @@ class PaymentExecution
         CURLOPT_CUSTOMREQUEST => 'GET',
         CURLOPT_HTTPHEADER => array(
             'Content-Type: application/json',
-            'Authorization: Bearer '. config('radwan-payments.$this->environment.apikey'),
+            'Authorization: Bearer '.$this->apikey,
         ),
         ));
 

@@ -85,7 +85,7 @@ class Fawaterk
     /**
      * Sends the request and gets back the invoice URL.
      */
-    public function getInvoiceUrl()
+    public function createInvoice()
     {
 
         $redirectUrl = [
@@ -100,7 +100,7 @@ class Fawaterk
             'customer'   => $this->customer,
             'redirectionUrls' => $redirectUrl,
             'cartItems' => $this->cartItems,
-            'Shipping' => $this->shipping,
+            'shipping' => $this->shipping,
         ];
         
         $data = json_encode($data); 
@@ -127,9 +127,9 @@ class Fawaterk
 
         $response = json_decode($response);
 
-        if (isset($response->data->url)) {
+        if (isset($response)) {
             /** redirect to fawaterk payemnt url **/
-            return $response->data->url;
+            return $response;
         }
 
         throw new \Exception("Invalid Response! " . $response);
