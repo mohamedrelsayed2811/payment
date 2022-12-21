@@ -5,6 +5,7 @@
     "license": "MIT",
     "autoload": {
         "classmap": [
+            "migrations"
         ],
         "psr-4": {
             "Radwan\\Payment\\": "src/",
