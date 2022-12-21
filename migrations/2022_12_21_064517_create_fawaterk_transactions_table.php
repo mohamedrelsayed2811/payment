@@ -14,6 +14,7 @@ class CreateFawaterkTransactionsTable extends Migration
     public function up()
     {
         Schema::create('fawaterk_transactions', function (Blueprint $table) {
+            $table->id();
             $table->increments('id');
             $table->integer('reference_id')->unique();
             $table->string('invoice_url')->unique();
@@ -22,7 +23,6 @@ class CreateFawaterkTransactionsTable extends Migration
             $table->json('response')->nullable()->comment('response data fields and values');
             $table->enum('status', ['paid','pending', 'fail'])->default('pending');
             $table->integer('created_at');
-            
         });
     }
 
