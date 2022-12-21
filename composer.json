@@ -5,11 +5,12 @@
     "license": "MIT",
     "autoload": {
         "classmap": [
-            "migrations"
+            "app/database/migrations"
         ],
         "psr-4": {
             "Radwan\\Payment\\": "src/",
-            "App\\": "app/"
+            "App\\": "app/",
+            "Acme\\controllers\\": "app/controllers"
         }
     },
     "authors": [

@@ -6,6 +6,7 @@ use Illuminate\Support\ServiceProvider;
 
 class PaymentsServiceProvider extends ServiceProvider
 {
+    
     public function boot()
     {
         
