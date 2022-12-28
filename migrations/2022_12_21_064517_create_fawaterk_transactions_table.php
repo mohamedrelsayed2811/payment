@@ -26,7 +26,6 @@ class CreateFawaterkTransactionsTable extends Migration
             $table->timestamps();
         });
     }
-
     /**
      * Reverse the migrations.
      *
