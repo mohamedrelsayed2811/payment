@@ -20,7 +20,7 @@ class CreateFawaterkTransactionsTable extends Migration
             $table->string('invoice_url')->unique();
             $table->json('order')->comment('Order data fields and values');
             $table->json('request')->comment('request data fields and values');
-            $table->json('data_fields')->after('request')->nullable();
+            $table->json('data_fields')->nullable();
             $table->json('response')->nullable()->comment('response data fields and values');
             $table->enum('status', ['paid','pending', 'fail'])->default('pending');
             $table->timestamps();
