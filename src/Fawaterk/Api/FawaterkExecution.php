@@ -2,8 +2,6 @@
 
 namespace Radwan\Payment\Fawaterk\Api;
 
-
-
 class FawaterkExecution
 {
 
@@ -40,6 +38,7 @@ class FawaterkExecution
         ));
 
         $response = curl_exec($curl);
+
         $response = json_decode($response);
         
         return $response;

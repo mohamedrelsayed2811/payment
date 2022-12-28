@@ -5,6 +5,7 @@ namespace Radwan\Payment\Fawaterk\Api;
 
 use Radwan\Payment\Fawaterk\Models\FawaterkTransactions;
 
+
 /**
  * Fawaterk Payment Integration.
  * @author Mohamed Radwan <mohamed.r.elsayed2811@gmail.com>
@@ -23,7 +24,7 @@ class Fawaterk
     public $pendingUrl;
     public $failUrl;
     public $order;
-
+    public $data_fields ;
     public function __construct()
     {
         $environment = config('radwan-payments.environment');
@@ -82,13 +83,6 @@ class Fawaterk
         return $this;
     }
 
-    public function setOrder( array $order )
-    {
-        $this->order = $order;
-
-        return $this;
-    }
-
 
     /**
      * Sends the request and gets back the invoice URL.
@@ -110,7 +104,7 @@ class Fawaterk
             'cartItems' => $this->cartItems,
             'shipping' => $this->shipping,
         ];
-        
+        $this->data_fields = $data;
         $data = json_encode($data); 
 
         $curl = curl_init();
@@ -132,20 +126,9 @@ class Fawaterk
         ));
 
         $response = curl_exec($curl);
-
-
         $response = json_decode($response);
 
-
         if (isset($response)) {
-            FawaterkTransactions::create([
-                'reference_id' => $response->data->invoiceId,
-                'invoice_url' => $response->data->url,
-                'order' => $this->order,
-                'request' => $data,
-                'response' => $response,
-                'created_at' => time()
-            ]);
             /** redirect to fawaterk payemnt url **/
             return $response;
         }
@@ -153,7 +136,16 @@ class Fawaterk
         throw new \Exception("Invalid Response! " . $response);
     }
 
+    public function toArray($reference_id, $invoice_url, $order, $request, $user_id)
+    {
+        FawaterkTransactions::create([
+            'reference_id' => $reference_id,
+            'invoice_url' => $invoice_url,
+            'order' => $order,
+            'request' => $request,
+            'user_id' => $user_id,
+            'data_fields' => $this->data_fields,
+        ]);
+    }
 
-
-   
 }

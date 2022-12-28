@@ -14,15 +14,16 @@ class CreateFawaterkTransactionsTable extends Migration
     public function up()
     {
         Schema::create('fawaterk_transactions', function (Blueprint $table) {
-            $table->id();
             $table->increments('id');
+            $table->integer('user_id')->unsigned()->nullable();
             $table->integer('reference_id')->unique();
             $table->string('invoice_url')->unique();
             $table->json('order')->comment('Order data fields and values');
             $table->json('request')->comment('request data fields and values');
+            $table->json('data_fields')->after('request')->nullable();
             $table->json('response')->nullable()->comment('response data fields and values');
             $table->enum('status', ['paid','pending', 'fail'])->default('pending');
-            $table->integer('created_at');
+            $table->timestamps();
         });
     }
 
