@@ -19,7 +19,8 @@ class Fawaterk
     public $shipping;
     public $cartTotal;
     public $customer;
-    public $currency;
+   /*  public $currency; */
+   protected $currency;
     public $successUrl;
     public $pendingUrl;
     public $failUrl;
@@ -30,7 +31,8 @@ class Fawaterk
         $environment = config('radwan-payments.environment');
         $this->apikey = config("radwan-payments.$environment.apikey");
         $this->apiUrl = config("radwan-payments.$environment.apiUrl");
-        $this->currency = config("radwan-payments.$environment.currency");
+        /* $this->currency = config("radwan-payments.$environment.currency"); */
+        $this->currency = currency();
         $this->successUrl = config("radwan-payments.$environment.successUrl");
         $this->pendingUrl = config("radwan-payments.$environment.pendingUrl");
         $this->failUrl = config("radwan-payments.$environment.failUrl");
