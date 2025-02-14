@@ -140,14 +140,18 @@ class Fawaterk
 
     public function toArray($reference_id, $invoice_url, $order, $request, $user_id)
     {
-        FawaterkTransactions::create([
-            'reference_id' => $reference_id,
-            'invoice_url' => $invoice_url,
-            'order' => $order,
-            'request' => $request,
-            'user_id' => $user_id,
-            'data_fields' => $this->data_fields,
-        ]);
+        FawaterkTransactions::updateOrCreate(
+            [
+                'reference_id' => $reference_id,
+                'user_id' => $user_id,
+            ],
+            [
+                'invoice_url' => $invoice_url,
+                'order' => $order,
+                'request' => json_encode($request), // Convert object to JSON
+                'data_fields' => json_encode($this->data_fields), // Convert object to JSON
+            ]
+        );
     }
 
 }
